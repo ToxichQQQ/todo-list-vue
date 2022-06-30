@@ -1,6 +1,8 @@
 <template>
     <ul class="list">
-        <ListItem v-for="item of items" v-bind:item="item" v-bind:key="item.id"/>
+        <ListItem v-for="item of items" v-bind:item="item" v-on:remove-item="removeItem"
+                  @toogle-value="toogleValue"
+                  v-bind:key="item.id"/>
     </ul>
 </template>
 
@@ -9,16 +11,18 @@ import ListItem from "@/components/ListItem";
 
 export default {
   name: "TodoList",
+  props:{
+    items: Array
+  },
   components: {
     ListItem
   },
-  data(){
-    return {
-      items:[
-        {id:'1', text:'Сходить в магазин', isDone:false},
-        {id:'2', text:'Купить пиво', isDone:false},
-        {id:'3', text:'Убраться дома', isDone:false}
-      ]
+  methods:{
+    removeItem(id){
+      this.$emit('remove-item',id)
+    },
+    toogleValue(id){
+      this.$emit('toogle-value',id)
     }
   }
 }

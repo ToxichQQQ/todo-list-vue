@@ -2,8 +2,8 @@
   <div class="todoList">
   <img class="img" alt="Vue logo" src="./assets/logo.png">
   <TodoHeader msg="TodoList on Vue.js"/>
-  <TodoForm/>
-  <TodoList/>
+  <TodoForm @add-item="addItem"/>
+  <TodoList v-bind:items="this.items" @remove-item="removeItem" @toogle-value="toogleValue"/>
   </div>
 </template>
 
@@ -14,11 +14,32 @@ import TodoList from "@/components/TodoList";
 
 export default {
   name: 'App',
+  data(){
+    return {
+      items:[
+        {id:'1', text:'Сходить в магазин', isDone:true},
+        {id:'2', text:'Купить пиво', isDone:false},
+        {id:'3', text:'Убраться дома', isDone:false}
+      ]
+    }
+  },
   components: {
     TodoList,
     TodoHeader,
     TodoForm
-  }
+  },
+  methods:{
+    removeItem(id){
+      console.log(id)
+      this.items = this.items.filter(item => item.id !== id)
+    },
+    toogleValue(id){
+      this.items = this.items.map(item => item.id === id ? {...item,isDone: !item.isDone} : item)
+    },
+    addItem(todo){
+      this.items = [...this.items,todo]
+    }
+  },
 }
 </script>
 

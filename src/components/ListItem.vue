@@ -1,8 +1,8 @@
 <template>
   <li class="list-item">
-    <input type="checkbox">
-    <span>{{item.text}}</span>
-    <button>&times;</button>
+    <input type="checkbox" v-bind:checked="item.isDone" v-on:change="$emit('toogle-value',item.id)">
+    <span v-bind:class="{done: item.isDone }">{{item.text}}</span>
+    <button v-on:click="$emit('remove-item',item.id)">&times;</button>
     </li>
 </template>
 
@@ -10,10 +10,7 @@
 export default {
   name: "ListItem",
   props:{
-    item:{
-      type:Object,
-      required:true
-    }
+    item: Object
   }
 }
 </script>
@@ -28,4 +25,9 @@ export default {
     display: flex;
     justify-content: space-between;
   }
+
+  .done{
+    text-decoration: line-through;
+  }
+
 </style>

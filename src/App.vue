@@ -2,7 +2,7 @@
   <div class="todoList">
   <img class="img" alt="Vue logo" src="./assets/logo.png">
   <TodoHeader msg="TodoList on Vue.js"/>
-  <TodoForm @add-item="addItem"/>
+   <TodoForm @add-item="addItem"/>
   <TodoList v-bind:items="this.items" @remove-item="removeItem" @toogle-value="toogleValue"/>
   </div>
 </template>
@@ -16,6 +16,7 @@ export default {
   name: 'App',
   data(){
     return {
+      state: true,
       items:[
         {id:'1', text:'Сходить в магазин', isDone:true},
         {id:'2', text:'Купить пиво', isDone:false},
@@ -37,7 +38,7 @@ export default {
       this.items = this.items.map(item => item.id === id ? {...item,isDone: !item.isDone} : item)
     },
     addItem(todo){
-      this.items = [...this.items,todo]
+      this.items = [todo,...this.items]
     }
   },
 }

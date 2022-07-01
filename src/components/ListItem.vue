@@ -1,7 +1,7 @@
 <template>
   <li class="list-item">
     <input type="checkbox" v-bind:checked="item.isDone" v-on:change="$emit('toogle-value',item.id)">
-    <span v-bind:class="{done: item.isDone }">{{item.text}}</span>
+    <span class="text" v-bind:class="{done: item.isDone }">{{item.text}}</span>
     <button v-on:click="$emit('remove-item',item.id)">&times;</button>
     </li>
 </template>
@@ -26,8 +26,13 @@ export default {
     justify-content: space-between;
   }
 
+  .text{
+    text-wrap: normal;
+  }
+
   .done{
     text-decoration: line-through;
+    color: grey;
   }
 
 </style>

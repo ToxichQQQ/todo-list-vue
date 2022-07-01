@@ -32,5 +32,10 @@ export default {
   .list{
       list-style: none;
       padding: 0;
+    max-height: 220px;
+    overflow-y: scroll;
+  }
+  .list::-webkit-scrollbar{
+    width: 0;
   }
 </style>

@@ -3,7 +3,8 @@
   <img class="img" alt="Vue logo" src="./assets/logo.png">
   <TodoHeader msg="TodoList on Vue.js"/>
    <TodoForm @add-item="addItem"/>
-  <TodoList v-bind:items="this.items" @remove-item="removeItem" @toogle-value="toogleValue"/>
+  <TodoList v-bind:items="filteredArray" @remove-item="removeItem" @toogle-value="toogleValue"/>
+    <FilterPanel @change-filter="changeFilter" v-bind:currentFilter="filter"/>
   </div>
 </template>
 
@@ -11,12 +12,13 @@
 import TodoHeader from './components/TodoHeader.vue'
 import TodoForm from "@/components/TodoForm";
 import TodoList from "@/components/TodoList";
+import FilterPanel from "@/components/FilterPanel";
 
 export default {
   name: 'App',
   data(){
     return {
-      state: true,
+      filter:'all',
       items:[
         {id:'1', text:'Сходить в магазин', isDone:true},
         {id:'2', text:'Купить пиво', isDone:false},
@@ -24,7 +26,25 @@ export default {
       ]
     }
   },
+  watch:{
+    filter:function (){
+      console.log('cla')
+    }
+  },
+  computed:{
+    filteredArray: function (){
+       if (this.filter === 'completed'){
+         return this.items.filter(item => item.isDone)
+       }
+
+      if (this.filter === 'uncompleted'){
+        return this.items.filter(item => !item.isDone)
+      }
+      return this.items
+    }
+  },
   components: {
+    FilterPanel,
     TodoList,
     TodoHeader,
     TodoForm
@@ -39,6 +59,10 @@ export default {
     },
     addItem(todo){
       this.items = [todo,...this.items]
+    },
+    changeFilter(value){
+      this.filter = value
+      console.log(value)
     }
   },
 }
@@ -59,7 +83,14 @@ export default {
 }
 
 .todoList {
+  position: relative;
   width: 600px;
+  height: 500px;
   margin: 0 auto;
+  border-radius: 10px;
+  padding: 20px;
+  -webkit-box-shadow: 0px 0px 5px 2px rgba(65,184,131,1);
+  -moz-box-shadow: 0px 0px 5px 2px rgba(65,184,131,1);
+  box-shadow: 0px 0px 5px 2px rgba(65,184,131,1);
 }
 </style>
